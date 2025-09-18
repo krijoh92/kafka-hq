@@ -1,0 +1,51 @@
+nameOverride: "kafka-ui"
+fullnameOverride: "kafka-ui"
+
+replicaCount: 1
+
+image:
+  registry: docker.io
+  repository: provectuslabs/kafka-ui
+  tag: "v0.7.2"
+  pullPolicy: IfNotPresent
+
+service:
+  type: ClusterIP
+  port: 8080
+
+ingress:
+  enabled: true
+  ingressClassName: "nginx"
+  annotations:
+    cert-manager.io/cluster-issuer: "letsencrypt"
+    nginx.ingress.kubernetes.io/ssl-redirect: "true"
+    nginx.ingress.kubernetes.io/proxy-buffer-size: "256k"
+  hosts:
+    - host: "kafka-hq.wittyshizard.dev"
+      paths:
+        - path: "/"
+          pathType: "Prefix"
+  tls:
+    - secretName: "kafka-hq-tls"
+      hosts:
+        - "kafka-hq.wittyshizard.dev"
+
+resources:
+  limits:
+    cpu: 500m
+    memory: 512Mi
+  requests:
+    cpu: 250m
+    memory: 256Mi
+
+yamlApplicationConfig:
+  kafka:
+    clusters:
+      - name: "kafka-cluster"
+        bootstrapServers: "kafka:9092"
+  auth:
+    type: "disabled"
+  management:
+    health:
+      ldap:
+        enabled: false

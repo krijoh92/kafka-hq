@@ -1,0 +1,59 @@
+nameOverride: "kafka"
+fullnameOverride: "kafka"
+
+image:
+  registry: docker.io
+  repository: bitnami/kafka
+  tag: "4.0.0-debian-12-r10"
+
+auth:
+  clientProtocol: plaintext
+  interBrokerProtocol: plaintext
+
+listeners:
+  client:
+    protocol: PLAINTEXT
+  controller:
+    protocol: PLAINTEXT
+  interbroker:
+    protocol: PLAINTEXT
+  external:
+    protocol: PLAINTEXT
+
+advertisedListeners:
+  client: "PLAINTEXT://kafka.kafka-hq.svc.cluster.pi:9092"
+
+processRoles: "broker,controller"
+
+clusterDomain: "cluster.pi"
+
+controller:
+  replicaCount: 1
+  controllerOnly: true
+
+broker:
+  replicaCount: 1
+  persistence:
+    enabled: true
+    size: 10Gi
+
+kraft:
+  enabled: true
+  clusterId: "kafka-cluster-kraft"
+
+zookeeper:
+  enabled: false
+
+externalAccess:
+  enabled: false
+
+metrics:
+  kafka:
+    enabled: false
+  jmx:
+    enabled: false
+
+service:
+  type: ClusterIP
+  ports:
+    client: 9092

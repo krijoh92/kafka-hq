@@ -1,0 +1,57 @@
+nameOverride: "akhq"
+fullnameOverride: "akhq"
+
+replicaCount: 1
+
+image:
+  repository: tchiotludo/akhq
+  tag: "0.26.0"
+  pullPolicy: IfNotPresent
+
+service:
+  type: ClusterIP
+  port: 8080
+
+ingress:
+  enabled: true
+  ingressClassName: "nginx"
+  annotations:
+    cert-manager.io/cluster-issuer: "letsencrypt"
+    nginx.ingress.kubernetes.io/ssl-redirect: "true"
+    nginx.ingress.kubernetes.io/proxy-buffer-size: "256k"
+  hosts:
+    - "kafka-hq.wittyshizard.dev"
+  paths:
+    - "/"
+  tls:
+    - secretName: "kafka-hq-tls"
+      hosts:
+        - "kafka-hq.wittyshizard.dev"
+
+resources:
+  limits:
+    cpu: 500m
+    memory: 512Mi
+  requests:
+    cpu: 250m
+    memory: 256Mi
+
+# Disable health checks to allow startup
+livenessProbe:
+  enabled: false
+readinessProbe:
+  enabled: false
+
+# Add Java options for ARM64 compatibility
+extraEnvs:
+  - name: JAVA_OPTS
+    value: "-Xmx256m -Xms128m"
+
+configuration:
+  akhq:
+    connections:
+      kafka-cluster:
+        properties:
+          bootstrap.servers: "kafka:9092"
+
+secrets: {}
