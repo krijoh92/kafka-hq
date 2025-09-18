@@ -1,0 +1,15 @@
+spring:
+  application:
+    name: ace-calculator
+  kafka:
+    bootstrap-servers: localhost:9092
+    streams:
+      application-id: ace-calculator
+      properties:
+        processing.guarantee: at_least_once
+        default.key.serde: org.apache.kafka.common.serialization.Serdes$StringSerde
+
+app:
+  topic:
+    input: A #TODO: Bytt til domenespesifikt navn
+    output: B #TODO: Bytt til domenespesifikt navn
