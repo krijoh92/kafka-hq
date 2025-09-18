@@ -16,6 +16,8 @@ Thumbs.db
 # IDE files
 .vscode/
 .idea/
+*.iml
+out/
 *.swp
 *.swo
 *~
@@ -28,6 +30,18 @@ logs/
 *.tmp
 *.temp
 .cache/
+
+# Build output (Java/Maven/Gradle)
+target/
+build/
+dist/
+bin/
+*.class
+
+# Maven Wrapper
+.mvn/wrapper/maven-wrapper.jar
+!/.mvn/wrapper/maven-wrapper.properties
+!/.mvn/wrapper/MavenWrapperDownloader.java
 
 # Kubernetes
 kubeconfig
@@ -52,3 +66,4 @@ secrets.yaml
 .local/
 tmp/
 temp/
+
