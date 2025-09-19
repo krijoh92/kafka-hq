@@ -67,3 +67,4 @@ secrets.yaml
 tmp/
 temp/
 
+node_modules

@@ -12,6 +12,7 @@ spec:
   tls:
     - hosts:
         - kafka-hq.wittyshizard.dev
+        - kafka.wittyshizard.dev
       secretName: kafka-hq-tls
   rules:
     - host: kafka-hq.wittyshizard.dev
