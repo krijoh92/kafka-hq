@@ -2,7 +2,7 @@ spring:
   application:
     name: ace-calculator
   kafka:
-    bootstrap-servers: localhost:9092
+    bootstrap-servers: ${KAFKA_BOOTSTRAP_SERVERS}
     streams:
       application-id: ace-calculator
       properties:
@@ -11,5 +11,5 @@ spring:
 
 app:
   topic:
-    input: A #TODO: Bytt til domenespesifikt navn
-    output: B #TODO: Bytt til domenespesifikt navn
+    input: ${ACE_CALCULATOR_INPUT_TOPIC:A} #TODO: Bytt til domenespesifikt navn
+    output: ${ACE_CALCULATOR_OUTPUT_TOPIC:B} #TODO: Bytt til domenespesifikt navn
