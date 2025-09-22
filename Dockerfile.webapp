@@ -1,0 +1,29 @@
+FROM oven/bun:alpine
+
+WORKDIR /app
+
+# Copy workspace package files
+COPY package.json bun.lock ./
+
+# Copy webapp package.json first (needed for workspace)
+COPY webapp/package.json ./webapp/
+
+# Install dependencies
+RUN bun install
+
+# Copy remaining webapp-specific files
+COPY webapp/index.html ./webapp/
+COPY webapp/vite.config.ts ./webapp/
+COPY webapp/tsconfig*.json ./webapp/
+COPY webapp/components.json ./webapp/
+COPY webapp/src ./webapp/src
+COPY webapp/public ./webapp/public
+
+# Set working directory to webapp
+WORKDIR /app/webapp
+
+# Expose development port
+EXPOSE 3000
+
+# Run development server with hot reloading
+CMD ["bun", "run", "dev", "--host", "0.0.0.0", "--port", "3000"]

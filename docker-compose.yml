@@ -1,0 +1,103 @@
+version: '3.8'
+
+services:
+  # Kafka service
+  kafka:
+    image: bitnami/kafka:latest
+    container_name: kafka
+    ports:
+      - "9092:9092"
+      - "9094:9094"
+    environment:
+      # KRaft mode configuration
+      KAFKA_CFG_NODE_ID: 0
+      KAFKA_CFG_PROCESS_ROLES: controller,broker
+      KAFKA_CFG_CONTROLLER_QUORUM_VOTERS: 0@kafka:9093
+      KAFKA_CFG_LISTENERS: PLAINTEXT://:9092,CONTROLLER://:9093,EXTERNAL://:9094
+      KAFKA_CFG_ADVERTISED_LISTENERS: PLAINTEXT://kafka:9092,EXTERNAL://localhost:9094
+      KAFKA_CFG_LISTENER_SECURITY_PROTOCOL_MAP: CONTROLLER:PLAINTEXT,EXTERNAL:PLAINTEXT,PLAINTEXT:PLAINTEXT
+      KAFKA_CFG_CONTROLLER_LISTENER_NAMES: CONTROLLER
+      KAFKA_CFG_INTER_BROKER_LISTENER_NAME: PLAINTEXT
+      # Auto create topics
+      KAFKA_CFG_AUTO_CREATE_TOPICS_ENABLE: true
+      # JMX for monitoring
+      KAFKA_JMX_OPTS: "-Dcom.sun.management.jmxremote -Dcom.sun.management.jmxremote.authenticate=false -Dcom.sun.management.jmxremote.ssl=false -Dcom.sun.management.jmxremote.local.only=false -Dcom.sun.management.jmxremote.port=9999 -Dcom.sun.management.jmxremote.rmi.port=9999 -Djava.rmi.server.hostname=kafka"
+      JMX_PORT: 9999
+    volumes:
+      - kafka_data:/bitnami/kafka
+
+  # AKHQ - Kafka Web UI
+  akhq:
+    image: tchiotludo/akhq:0.26.0
+    container_name: akhq
+    ports:
+      - "8081:8080"
+    depends_on:
+      - kafka
+    environment:
+      AKHQ_CONFIGURATION: |
+        akhq:
+          connections:
+            kafka-cluster:
+              properties:
+                bootstrap.servers: "kafka:9092"
+    restart: unless-stopped
+
+  # ACE Calculator - Kafka Streams App
+  ace-calculator:
+    build:
+      context: ./ace-calculator
+      dockerfile: Dockerfile
+    container_name: ace-calculator
+    depends_on:
+      - kafka
+    environment:
+      KAFKA_BOOTSTRAP_SERVERS: kafka:9092
+      ACE_CALCULATOR_INPUT_TOPIC: ace-corridor
+      ACE_CALCULATOR_OUTPUT_TOPIC: ace-area
+    restart: unless-stopped
+
+  # ACE Backend - BFF Service
+  ace-backend:
+    build:
+      context: ./ace-backend
+      dockerfile: Dockerfile
+    container_name: ace-backend
+    ports:
+      - "8080:8080"
+    depends_on:
+      - kafka
+    environment:
+      KAFKA_BOOTSTRAP_SERVERS: kafka:9092
+      SPRING_PROFILES_ACTIVE: docker
+      SPRING_KAFKA_BOOTSTRAP_SERVERS: kafka:9092
+      APP_KAFKA_TOPIC: ace-area
+      APP_KAFKA_ENABLED: true
+    restart: unless-stopped
+
+  # Frontend Webapp
+  webapp:
+    build:
+      context: .
+      dockerfile: Dockerfile.webapp
+    container_name: webapp
+    ports:
+      - "3000:3000"
+    depends_on:
+      - ace-backend
+    environment:
+      VITE_ACE_BACKEND_URL: http://localhost:8080
+      VITE_API_BASE_URL: http://localhost:8080/api
+    volumes:
+      - ./webapp/src:/app/webapp/src
+      - ./webapp/public:/app/webapp/public
+      - ./webapp/index.html:/app/webapp/index.html
+      - ./webapp/vite.config.ts:/app/webapp/vite.config.ts
+      - ./webapp/tsconfig.json:/app/webapp/tsconfig.json
+      - ./webapp/tsconfig.app.json:/app/webapp/tsconfig.app.json
+      - ./webapp/tsconfig.node.json:/app/webapp/tsconfig.node.json
+    restart: unless-stopped
+
+volumes:
+  kafka_data:
+    driver: local

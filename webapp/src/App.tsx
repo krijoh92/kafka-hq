@@ -1,12 +1,17 @@
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import "./App.css";
-import { OverviewChart } from "./components/OverviewChart";
+import { Corridor } from "./components/Corridor";
+
+const queryClient = new QueryClient();
 
 function App() {
 	return (
-		<div className="space-y-20">
-			<h1>Kafka HQ Dashboard</h1>
-      <OverviewChart />
-		</div>
+		<QueryClientProvider client={queryClient}>
+			<div className="space-y-20">
+				<h1>Kafka HQ Dashboard</h1>¨
+				<Corridor />|
+			</div>
+		</QueryClientProvider>
 	);
 }
 

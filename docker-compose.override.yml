@@ -1,0 +1,29 @@
+version: '3.8'
+
+# Development overrides for docker-compose.yml
+# This file is automatically used when running docker-compose up
+
+services:
+  ace-backend:
+    ports:
+      - "8080:8080"
+      - "5005:5005"  # Debug port
+    environment:
+      SPRING_PROFILES_ACTIVE: docker,dev
+      JAVA_TOOL_OPTIONS: "-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:5005"
+
+  webapp:
+    environment:
+      NODE_ENV: development
+    # Additional volumes for live reloading
+    volumes:
+      - ./webapp/src:/app/webapp/src
+      - ./webapp/public:/app/webapp/public
+      - ./webapp/index.html:/app/webapp/index.html
+      - ./webapp/vite.config.ts:/app/webapp/vite.config.ts
+      - ./webapp/package.json:/app/webapp/package.json
+      - ./webapp/tsconfig.json:/app/webapp/tsconfig.json
+      - ./webapp/tsconfig.app.json:/app/webapp/tsconfig.app.json
+      - ./webapp/tsconfig.node.json:/app/webapp/tsconfig.node.json
+      - /app/node_modules  # Prevent overwriting workspace node_modules
+      - /app/webapp/node_modules  # Prevent overwriting webapp node_modules

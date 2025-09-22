@@ -1,0 +1,22 @@
+[
+  {"InArea":"NO1","OutArea":"NO2","Quantity":450,"TimeStamp":"2025-09-22T06:00:00Z"},
+  {"InArea":"NO3","OutArea":"NO1","Quantity":280,"TimeStamp":"2025-09-22T06:15:00Z"},
+  {"InArea":"NO5","OutArea":"NO3","Quantity":320,"TimeStamp":"2025-09-22T06:30:00Z"},
+  {"InArea":"NO2","OutArea":"NO4","Quantity":180,"TimeStamp":"2025-09-22T06:45:00Z"},
+  {"InArea":"NO4","OutArea":"NO5","Quantity":220,"TimeStamp":"2025-09-22T07:00:00Z"},
+  {"InArea":"NO1","OutArea":"NO3","Quantity":380,"TimeStamp":"2025-09-22T07:15:00Z"},
+  {"InArea":"NO2","OutArea":"NO5","Quantity":150,"TimeStamp":"2025-09-22T07:30:00Z"},
+  {"InArea":"NO3","OutArea":"NO4","Quantity":290,"TimeStamp":"2025-09-22T07:45:00Z"},
+  {"InArea":"NO5","OutArea":"NO1","Quantity":410,"TimeStamp":"2025-09-22T08:00:00Z"},
+  {"InArea":"NO4","OutArea":"NO2","Quantity":190,"TimeStamp":"2025-09-22T08:15:00Z"},
+  {"InArea":"NO1","OutArea":"NO5","Quantity":340,"TimeStamp":"2025-09-22T08:30:00Z"},
+  {"InArea":"NO3","OutArea":"NO2","Quantity":260,"TimeStamp":"2025-09-22T08:45:00Z"},
+  {"InArea":"NO2","OutArea":"NO1","Quantity":300,"TimeStamp":"2025-09-22T09:00:00Z"},
+  {"InArea":"NO4","OutArea":"NO3","Quantity":170,"TimeStamp":"2025-09-22T09:15:00Z"},
+  {"InArea":"NO5","OutArea":"NO4","Quantity":250,"TimeStamp":"2025-09-22T09:30:00Z"},
+  {"InArea":"NO1","OutArea":"NO4","Quantity":390,"TimeStamp":"2025-09-22T09:45:00Z"},
+  {"InArea":"NO3","OutArea":"NO5","Quantity":210,"TimeStamp":"2025-09-22T10:00:00Z"},
+  {"InArea":"NO2","OutArea":"NO3","Quantity":160,"TimeStamp":"2025-09-22T10:15:00Z"},
+  {"InArea":"NO4","OutArea":"NO1","Quantity":280,"TimeStamp":"2025-09-22T10:30:00Z"},
+  {"InArea":"NO5","OutArea":"NO2","Quantity":330,"TimeStamp":"2025-09-22T10:45:00Z"}
+]
