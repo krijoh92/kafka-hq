@@ -8,8 +8,8 @@ function App() {
 	return (
 		<QueryClientProvider client={queryClient}>
 			<div className="space-y-20">
-				<h1>Kafka HQ Dashboard</h1>¨
-				<Corridor />|
+				<h1>Kafka HQ Dashboard</h1>
+				<Corridor />
 			</div>
 		</QueryClientProvider>
 	);
