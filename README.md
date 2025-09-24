@@ -2,6 +2,12 @@
 
 This repository contains Helm configurations to deploy Apache Kafka with AKHQ GUI on Kubernetes.
 
+## Public Services
+
+- **AKHQ (Kafka UI)**: https://kafka-hq.wittyshizard.dev
+- **ACE Backend API**: https://ace-backend.wittyshizard.dev
+- **Webapp Frontend**: https://ace-web.wittyshizard.dev/
+
 ## Prerequisites
 
 - Kubernetes cluster
