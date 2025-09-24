@@ -27,4 +27,4 @@ spring:
 app:
   kafka:
     enabled: true
-    topic: topic-a
+    topic: ${ACE_BACKEND_INPUT_TOPIC}

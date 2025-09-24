@@ -10,17 +10,12 @@ This directory contains several ACE (Area Control Error) datasets derived from r
 - **Records**: 18,995 inter-area power flows
 - **Format**: JSON array with InArea, OutArea, Quantity (MW), TimeStamp
 
-### 2. `sample-ace-dataset-50.json` (50 records)
-- **Source**: First 50 records from complete dataset
-- **Period**: January 1, 2025 (first few hours)
-- **Use**: Quick testing and development
-
-### 3. `sample-ace-from-fcr-data.json` (30 records)
+### 2. `sample-ace-from-fcr-data.json` (30 records)
 - **Source**: Manually curated from FCR data analysis
 - **Period**: September 22, 2025 (morning hours 6:00-11:00)
 - **Use**: Realistic test data for demonstrations
 
-### 4. `sample-ace-data.json` (20 records)
+### 3. `sample-ace-data.json` (20 records)
 - **Source**: Synthetic data based on Norwegian bidding zone patterns
 - **Period**: September 22, 2025 (morning hours 6:00-10:45)
 - **Use**: Basic testing and examples

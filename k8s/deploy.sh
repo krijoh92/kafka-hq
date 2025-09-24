@@ -12,6 +12,10 @@ echo "🚀 Deploying Kafka with AKHQ on Kubernetes"
 echo "📁 Creating namespace: $NAMESPACE"
 kubectl create namespace $NAMESPACE --dry-run=client -o yaml | kubectl apply -f -
 
+# Apply registry credentials
+echo "🔐 Creating registry credentials..."
+kubectl apply -f regcred.yaml
+
 # Add AKHQ Helm repository
 echo "📦 Adding AKHQ Helm repository..."
 helm repo add akhq https://akhq.io/
@@ -35,16 +39,27 @@ helm upgrade --install $AKHQ_RELEASE akhq/akhq \
   --values akhq-values.yaml \
   --wait
 
+# Deploy additional services
+echo "🏗️ Deploying additional services..."
+kubectl apply -f ace-calc-k8s.yaml
+kubectl apply -f ace-backend.yaml
+kubectl apply -f webapp.yaml
+
 echo "✅ Deployment completed!"
 echo ""
-echo "🌐 AKHQ is available at: https://kafka-hq.wittyshizard.dev"
-echo "⏳ SSL certificate may take a few minutes to provision"
+echo "🌐 Services available at:"
+echo "  - AKHQ: https://kafka-hq.wittyshizard.dev"
+echo "  - ACE Backend: https://ace-backend.wittyshizard.dev"
+echo "  - Web App: https://ace-web.wittyshizard.dev"
+echo "⏳ SSL certificates may take a few minutes to provision"
 echo ""
 echo "🔍 Check certificate status:"
-echo "  kubectl get certificate kafka-hq-tls -n $NAMESPACE"
+echo "  kubectl get certificate -n $NAMESPACE"
 echo ""
 echo "📋 Local access (if needed):"
 echo "  kubectl port-forward service/akhq 8080:8080 -n $NAMESPACE"
+echo "  kubectl port-forward service/ace-backend 8081:8080 -n $NAMESPACE"
+echo "  kubectl port-forward service/webapp 3000:3000 -n $NAMESPACE"
 echo ""
 echo "📋 Kafka connection details:"
 echo "  Bootstrap servers: kafka:9092 (internal)"

@@ -21,5 +21,8 @@ export default defineConfig({
 				secure: false,
 			},
 		},
+		allowedHosts: [
+			"ace-web.wittyshizard.dev"
+		]
 	},
 });
